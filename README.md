@@ -5,7 +5,7 @@ Connect to FTP servers and manage files directly from your phone.
 
 一个轻量级、易于使用的 Android FTP 客户端。  
 让你可以直接在安卓手机上连接 FTP 服务器并管理文件。
-
+V8只有ftp连接 V9增加了smb tftp ftps
 ---
 
 # Features / 功能特点

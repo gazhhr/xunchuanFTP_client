@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">迅传FTP</string>
+    <string name="title_activity_main">迅传FTP</string>
+    <string name="package_name">com.swiftftp.app</string>
+    <string name="custom_url_scheme">com.swiftftp.app</string>
+</resources>

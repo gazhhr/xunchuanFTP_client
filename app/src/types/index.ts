@@ -1,10 +1,12 @@
 // FTP 连接配置
+export type ProtocolType = 'ftp' | 'ftps' | 'smb' | 'tftp';
+
 export interface FTPConfig {
   id: string;
   name: string;
   host: string;
   port: number;
-  protocol: 'ftp' | 'ftps' | 'sftp';
+  protocol: ProtocolType;
   username: string;
   password: string;
 }

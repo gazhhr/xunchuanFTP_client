@@ -37,6 +37,11 @@ export default function ConnectionModal() {
       setConnectionError('请输入服务器地址');
       return;
     }
+    // TFTP doesn't require credentials
+    if (form.protocol === 'tftp') {
+      // Use default credentials for TFTP
+      setForm(prev => ({ ...prev, username: '', password: '' }));
+    }
     const config: FTPConfig = {
       ...form,
       id: form.id || Date.now().toString(),
@@ -199,7 +204,11 @@ export default function ConnectionModal() {
               </label>
               <select
                 value={form.protocol}
-                onChange={(e) => setForm({ ...form, protocol: e.target.value as 'ftp' | 'ftps' | 'sftp' })}
+                onChange={(e) => {
+                  const protocol = e.target.value as 'ftp' | 'ftps' | 'smb' | 'tftp';
+                  const defaultPorts = { ftp: 21, ftps: 21, smb: 445, tftp: 69 };
+                  setForm({ ...form, protocol, port: defaultPorts[protocol] });
+                }}
                 className="w-full h-10 px-2 rounded-md text-sm outline-none transition-colors appearance-none"
                 style={{
                   backgroundColor: '#2D333B',
@@ -209,7 +218,8 @@ export default function ConnectionModal() {
               >
                 <option value="ftp">FTP</option>
                 <option value="ftps">FTPS</option>
-                <option value="sftp">SFTP</option>
+                <option value="smb">SMB (Windows 共享)</option>
+                <option value="tftp">TFTP</option>
               </select>
             </div>
             <div className="flex-1">
@@ -300,6 +310,14 @@ export default function ConnectionModal() {
                 {showPassword ? '隐藏' : '显示'}
               </button>
             </div>
+          </div>
+
+          {/* Protocol hint */}
+          <div className="text-xs px-3 py-2 rounded-md" style={{ backgroundColor: '#2D333B', color: '#8B949E', border: '1px solid #30363D' }}>
+            {form.protocol === 'ftp' && '标准文件传输协议，端口 21'}
+            {form.protocol === 'ftps' && 'FTP over SSL/TLS 加密传输，端口 21'}
+            {form.protocol === 'smb' && 'Windows 文件共享协议，端口 445。用户名格式: domain\\user'}
+            {form.protocol === 'tftp' && '简单文件传输协议，端口 69。无需用户名密码'}
           </div>
 
           {/* Error message */}
